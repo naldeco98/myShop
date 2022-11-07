@@ -1,4 +1,4 @@
-package main
+package app
 
 import (
 	"embed"
@@ -36,14 +36,14 @@ func (app *application) renderTemplate(w http.ResponseWriter, r *http.Request, p
 	var err error
 
 	templateToRender := fmt.Sprintf("templates/%s.page.gohtml", page)
-	_, tempInMap := app.templateCache[templateToRender]
+	_, tempInMap := app.TemplateCache[templateToRender]
 
-	if app.config.env == "prod" && tempInMap {
-		t = app.templateCache[templateToRender]
+	if app.Env == "prod" && tempInMap {
+		t = app.TemplateCache[templateToRender]
 	} else {
 		t, err = app.parseTemplate(partials, page, templateToRender)
 		if err != nil {
-			app.errorLog.Println(err)
+			app.ErrorLog.Println(err)
 			return err
 		}
 	}
@@ -55,7 +55,7 @@ func (app *application) renderTemplate(w http.ResponseWriter, r *http.Request, p
 	td = app.addDefaultData(td, r)
 
 	if err := t.Execute(w, td); err != nil {
-		app.errorLog.Println(err)
+		app.ErrorLog.Println(err)
 		return err
 	}
 
@@ -81,10 +81,10 @@ func (app *application) parseTemplate(partials []string, page, templateToRender 
 	}
 
 	if err != nil {
-		app.errorLog.Println(err)
+		app.ErrorLog.Println(err)
 		return nil, err
 	}
 
-	app.templateCache[templateToRender] = t
+	app.TemplateCache[templateToRender] = t
 	return t, nil
 }
