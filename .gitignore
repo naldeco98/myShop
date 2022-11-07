@@ -351,3 +351,4 @@ MigrationBackup/
 
 # Ingnore air config file
 .air.toml
+/tmp*
