@@ -1,2 +1,2 @@
 # myShop
-Proyect for golang course
+Project for golang course
