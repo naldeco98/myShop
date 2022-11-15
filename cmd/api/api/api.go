@@ -1,8 +1,7 @@
-package app
+package api
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -12,7 +11,6 @@ import (
 type Config struct {
 	Port int
 	Env  string
-	Api  string
 	Db   struct {
 		Dsn string
 	}
@@ -26,8 +24,7 @@ type Config struct {
 
 type application struct {
 	Config
-	TemplateCache map[string]*template.Template
-	Version       string
+	Version string
 }
 
 // New get a new application instance
@@ -47,6 +44,6 @@ func (app *application) Serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	app.InfoLog.Printf("Starting Frontend server in \"%s\" mode on port %d\n", app.Env, app.Port)
+	app.InfoLog.Printf("Starting Backend server in \"%s\" mode on port %d\n", app.Env, app.Port)
 	return srv.ListenAndServe()
 }

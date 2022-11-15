@@ -29,13 +29,13 @@ func main() {
 	cfg.InfoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	cfg.ErrorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	app := app.New(cfg)
+	application := app.New(cfg)
 
-	app.TemplateCache = make(map[string]*template.Template)
-	app.Version = version
+	application.TemplateCache = make(map[string]*template.Template)
+	application.Version = version
 
-	if err := app.Serve(); err != nil {
-		app.ErrorLog.Println(err)
+	if err := application.Serve(); err != nil {
+		application.ErrorLog.Println(err)
 		log.Fatal()
 	}
 }
