@@ -27,9 +27,7 @@ func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request)
 		"pc":        r.Form.Get("payment_currency"),
 	}
 
-	if err := app.renderTemplate(w, r, "succeeded", &templateData{
-		Data: data,
-	}); err != nil {
+	if err := app.renderTemplate(w, r, "succeeded", &templateData{Data: data}); err != nil {
 		app.ErrorLog.Println(err)
 		return
 	}

@@ -18,7 +18,7 @@ type templateData struct {
 	Warning         string
 	Error           string
 	IsAuthenticated int
-	API             string
+	API             template.URL
 	CSSVerion       string
 }
 
@@ -28,7 +28,7 @@ var functions = template.FuncMap{}
 var templateFS embed.FS
 
 func (app *application) addDefaultData(td *templateData, r *http.Request) *templateData {
-	td.API = app.Config.Api
+	td.API = template.URL(app.Config.Api)
 	return td
 }
 

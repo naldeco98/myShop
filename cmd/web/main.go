@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/nialdeco98/myShop/cmd/web/app"
 )
 
@@ -15,6 +16,11 @@ const (
 )
 
 func main() {
+
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	var cfg app.Config
 
 	flag.IntVar(&cfg.Port, "port", 4000, "Server port to listen on")

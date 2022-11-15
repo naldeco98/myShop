@@ -19,5 +19,5 @@ run_backend:
 	@go run ./cmd/api
 
 run_frontend:
-	echo "$(COLOUR_GREEN)--- Starting Frontend Server ---$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)--- Starting Frontend Server ---$(COLOUR_END)"
 	@go run ./cmd/web
