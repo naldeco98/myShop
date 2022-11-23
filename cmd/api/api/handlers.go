@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/nialdeco98/myShop/internal/cards"
 )
 
@@ -69,4 +70,31 @@ func (app *application) PaymentIntent(w http.ResponseWriter, r *http.Request) {
 		w.Write(out)
 	}
 
+}
+
+func (app *application) GetWidget(w http.ResponseWriter, r *http.Request) {
+	ke := chi.URLParam(r, "id")
+	ID, err := strconv.Atoi(ke)
+	if err != nil {
+		w.WriteHeader(400)
+		app.ErrorLog.Println(err)
+		return
+	}
+	widget, err := app.DB.GetWidget(ID)
+	if err != nil {
+		w.WriteHeader(500)
+		app.ErrorLog.Println(err)
+		return
+	}
+
+	out, err := json.MarshalIndent(widget, "", "\t")
+	if err != nil {
+		w.WriteHeader(500)
+		app.ErrorLog.Println(err)
+		return
+	}
+
+	w.WriteHeader(200)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }

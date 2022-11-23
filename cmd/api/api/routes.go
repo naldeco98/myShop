@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 )
@@ -25,7 +25,10 @@ func (app *application) routes() http.Handler {
 		MaxAge:           300,
 	}))
 
-	mux.Post("/api/payment-intent", app.PaymentIntent)
+	mux.Route("/api", func(r chi.Router) {
+		r.Post("/payment-intent", app.PaymentIntent)
+		r.Get("/widget/{id}", app.GetWidget)
+	})
 
 	return mux
 }

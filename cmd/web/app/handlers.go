@@ -1,12 +1,21 @@
 package app
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/nialdeco98/myShop/internal/models"
+)
+
+func (app *application) Home(w http.ResponseWriter, r *http.Request) {
+
+	if err := app.renderTemplate(w, r, "home", nil); err != nil {
+		app.ErrorLog.Println(err)
+	}
+}
 
 func (app *application) VirtualTerminal(w http.ResponseWriter, r *http.Request) {
-	stringMap := map[string]string{
-		"publishable_key": app.Config.Stripe.Key,
-	}
-	if err := app.renderTemplate(w, r, "terminal", &templateData{StringMap: stringMap}); err != nil {
+
+	if err := app.renderTemplate(w, r, "terminal", nil, "stripe-js"); err != nil {
 		app.ErrorLog.Println(err)
 	}
 }
@@ -30,5 +39,30 @@ func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request)
 	if err := app.renderTemplate(w, r, "succeeded", &templateData{Data: data}); err != nil {
 		app.ErrorLog.Println(err)
 		return
+	}
+}
+
+func (app *application) ChargeOnce(w http.ResponseWriter, r *http.Request) {
+
+	// mockit for now
+	widget := models.Widget{
+		ID:             1,
+		Name:           "Custom Widget",
+		Description:    "A very nice widget",
+		InventoryLevel: 10,
+		Price:          1500,
+	}
+	//.--.
+	data := make(map[string]any)
+	data["widget"] = widget
+	err := app.renderTemplate(w, r,
+		"buy-once",
+		&templateData{
+			Data: data,
+		},
+		"stripe-js")
+
+	if err != nil {
+		app.ErrorLog.Println(err)
 	}
 }

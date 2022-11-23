@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/nialdeco98/myShop/internal/models"
 )
 
 // Config - struct containing configuration prefrences
@@ -25,6 +27,7 @@ type Config struct {
 type application struct {
 	Config
 	Version string
+	DB      models.DBModel
 }
 
 // New get a new application instance

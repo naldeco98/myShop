@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/nialdeco98/myShop/internal/models"
 )
 
 // Config - struct containing configuration prefrences
@@ -28,6 +30,7 @@ type application struct {
 	Config
 	TemplateCache map[string]*template.Template
 	Version       string
+	DB            models.DBModel
 }
 
 // New get a new application instance
